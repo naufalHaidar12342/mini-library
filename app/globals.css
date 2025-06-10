@@ -1,8 +1,29 @@
-@import 'tailwindcss';
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* As of Tailwind v4.1.8, declaring our own custom colors in hex
+seems to not works, forcing me to convert it in oklch()
+value. I use this online tool: https://oklch.com/ 
+
+I will put the original value of the colors (in hex),
+inside the block comment */
 
 @theme {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+	--color-darkmode: oklch(0.1543 0 0) /* #0a0a0a */;
+	--color-lightmode: oklch(0.9551 0 0) /* #f0f0f0 */;
+
+	--color-pictonblue-50: oklch(0.9764 0.0133 233.74) /* #EFF9FF */;
+	--color-pictonblue-100: oklch(0.9503 0.0275 236.17) /* #DEF2FF */;
+	--color-pictonblue-200: oklch(0.9017 0.0602 229.34) /* #B6E7FF */;
+	--color-pictonblue-300: oklch(0.832 0.108 227.71) /* #75D6FF */;
+	--color-pictonblue-400: oklch(0.7661 0.146 231.71) /* #2CC2FF */;
+	--color-pictonblue-500: oklch(0.7208 0.163171 239.2912) /* #00B0FF */;
+	--color-pictonblue-600: oklch(0.6045 0.1502 244.38) /* #0088D4 */;
+	--color-pictonblue-700: oklch(0.5131 0.128754 244.8502) /* #006CAB */;
+	--color-pictonblue-800: oklch(0.4524 0.109 242.82) /* #005B8D */;
+	--color-pictonblue-900: oklch(0.3991 0.0915 241.97) /* #064C74 */;
+	--color-pictonblue-950: oklch(0.2977 0.0692 243.86) /* #04304D */;
 }
 
 /*
@@ -14,35 +35,35 @@
   color utility to any element that depends on these defaults.
 */
 @layer base {
-  *,
-  ::after,
-  ::before,
-  ::backdrop,
-  ::file-selector-button {
-    border-color: var(--color-gray-200, currentcolor);
-  }
+	/* *,
+	::after,
+	::before,
+	::backdrop,
+	::file-selector-button {
+		border-color: var(--color-gray-200, currentcolor);
+	} */
 }
 
 @utility text-balance {
-  text-wrap: balance;
+	text-wrap: balance;
 }
 
 @layer utilities {
-  :root {
-    --background: #ffffff;
-    --foreground: #171717;
-  }
+	:root {
+		--background: #f0f0f0;
+		--foreground: #0c0c0c;
+	}
 
-  @media (prefers-color-scheme: dark) {
+	/* @media (prefers-color-scheme: dark) {
     :root {
       --background: #0a0a0a;
       --foreground: #ededed;
     }
-  }
+  } */
 
-  body {
-    color: var(--foreground);
-    background: var(--background);
-    font-family: Arial, Helvetica, sans-serif;
-  }
+	/* body {
+		color: var(--foreground);
+		background: var(--background);
+		font-family: Arial, Helvetica, sans-serif;
+	} */
 }
