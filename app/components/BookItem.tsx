@@ -1,5 +1,7 @@
 import { Icon } from "@iconify-icon/react";
 import { Books } from "../types/books";
+import Link from "next/link";
+import BookActionButton from "./BookActionButton";
 
 export default function BookItem({ booksPassed }: { booksPassed: Books }) {
 	// conditional rendering on color gradient based on book_finished_reading
@@ -34,16 +36,18 @@ export default function BookItem({ booksPassed }: { booksPassed: Books }) {
 					<h3 className="text-xl tracking-wide font-(family-name:--font-tanker-regular) line-clamp-2">
 						{booksPassed.book_title}
 					</h3>
-					<span className="text-sm font-(family-name:--font-bespoke-serif-regular) line-clamp-1">
+					<span className="text-sm tracking-wide font-(family-name:--font-bespoke-serif-regular) line-clamp-1">
 						{booksPassed.book_author}
 					</span>
 					<span className="text-sm tracking-wider font-(family-name:--font-tanker-regular)">
 						{booksPassed.book_year}
 					</span>
 					<div className="flex mt-auto justify-end">
-						<button className=" text-2xl text-darkmode dark:text-lightmode">
-							<Icon icon={"tabler:dots"} />
-						</button>
+						<BookActionButton
+							bookId={booksPassed.id}
+							bookReadingStatus={booksPassed.book_finished_reading}
+							key={booksPassed.id}
+						/>
 					</div>
 				</div>
 			</div>

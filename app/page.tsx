@@ -2,23 +2,45 @@ import Logo from "./components/Logo";
 import ThemeSwitch from "./components/ThemeSwitch";
 import fetchAllBooks from "./helpers/supabase/fetch-all-books";
 import { Suspense } from "react";
-import FallbackSkeleton from "./components/FallbackSkeleton";
 import { BOOKS_IN_EACH_PAGE } from "./constants/pagination-constants";
 import AllBooksSection from "./components/home/AllBooksSection";
 import { Books } from "./types/books";
+import fetchBooksCurrentlyRead from "./helpers/supabase/fetch-books-currently-read";
+import fetchBooksFinishedRead from "./helpers/supabase/fetch-books-finished-read";
+import CurrentlyReadingSection from "./components/home/CurrentlyReadingSection";
+import FinishedReadingSection from "./components/home/FinishedReadingSection";
+import getFallbackBooks from "./helpers/fallback-books";
 
 export default async function Home({
 	searchParams,
 }: {
 	searchParams: Promise<{ [key: string]: string }>;
 }) {
+	/* the parameters sent by Link inside PaginationComponent is "page". to avoid confusion where the "page" comes from, i use named variable "pageParams"*/
 	const { page: pageParams } = await searchParams;
-	console.log("Page Params:", pageParams);
+	// console.log("Page Params:", pageParams);
 
-	const currentPage = parseInt(pageParams, BOOKS_IN_EACH_PAGE) || 1;
-	const { data: fetchedAllBooks, allBooksPages } = await fetchAllBooks(
-		currentPage
-	);
+	const activePageNow = parseInt(pageParams, BOOKS_IN_EACH_PAGE) || 1;
+	const { data: fetchedAllBooks, pages: allBooksPages } = await fetchAllBooks({
+		currentPage: activePageNow,
+	});
+	// console.log("Fetched All Books:", fetchedAllBooks);
+
+	/* fetching currently reading books and finished books concurrently with Promise.all([]) to prevent blocking
+	the fetching process for all books section */
+	const [fetchCurrentlyReadingBooksResult, fetchFinishedBooksResult] =
+		await Promise.all([
+			fetchBooksCurrentlyRead({ requestedBooksAmount: 5 }),
+			fetchBooksFinishedRead({
+				requestedBooksAmount: 5,
+			}),
+		]);
+	const { data: currentlyReadingBooks } = fetchCurrentlyReadingBooksResult;
+	const { data: finishedReadingBooks } = fetchFinishedBooksResult;
+
+	//fallback data when books still not fetched
+	const booksButStatic = getFallbackBooks();
+	// console.log("Fallback Books:", booksButStatic);
 
 	return (
 		<div className="flex flex-col w-full min-h-screen font-(family-name:--bespoke-serif-regular)">
@@ -44,8 +66,21 @@ export default async function Home({
 					and Tailwind CSS v4
 				</p>
 			</section>
+			<div className="mt-6 flex flex-col gap-y-6 lg:flex-row lg:gap-x-6 lg:gap-y-0">
+				<CurrentlyReadingSection
+					booksFromServer={currentlyReadingBooks as Books[]}
+				/>
+				<div className="hidden lg:flex lg:w-2 lg:bg-darkmode lg:dark:bg-lightmode"></div>
+				<FinishedReadingSection
+					booksFromServer={finishedReadingBooks as Books[]}
+				/>
+			</div>
 			<AllBooksSection
-				booksFromServer={fetchedAllBooks as Books[]}
+				booksFromServer={
+					fetchedAllBooks !== null || undefined
+						? (fetchedAllBooks as Books[])
+						: booksButStatic
+				}
 				totalPages={allBooksPages}
 			/>
 		</div>

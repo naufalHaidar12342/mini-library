@@ -2,10 +2,16 @@
 import { BOOKS_IN_EACH_PAGE } from "@/app/constants/pagination-constants";
 import supabaseServerSide from "./supabase-server-side";
 
-export default async function fetchAllBooks(currentPage: number = 1) {
+export default async function fetchAllBooks({
+	currentPage = 1,
+	requestedBooksAmount = BOOKS_IN_EACH_PAGE,
+}: {
+	currentPage?: number;
+	requestedBooksAmount?: number;
+}) {
 	// const supabase = supabaseJSClient();
-	const startingRange = (currentPage - 1) * BOOKS_IN_EACH_PAGE;
-	const finalRange = currentPage * BOOKS_IN_EACH_PAGE - 1;
+	const startingRange = (currentPage - 1) * requestedBooksAmount;
+	const finalRange = currentPage * requestedBooksAmount - 1;
 
 	const supabase = await supabaseServerSide();
 	const { data: allBooksData, count: allBooksCount } = await supabase
@@ -15,7 +21,7 @@ export default async function fetchAllBooks(currentPage: number = 1) {
 		.range(startingRange, finalRange);
 
 	const allBooksPages = allBooksCount
-		? Math.ceil(allBooksCount / BOOKS_IN_EACH_PAGE)
+		? Math.ceil(allBooksCount / requestedBooksAmount)
 		: 0;
-	return { data: allBooksData, allBooksPages };
+	return { data: allBooksData, pages: allBooksPages };
 }

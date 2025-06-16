@@ -8,11 +8,12 @@ export default function supabaseClientSide() {
 		throw new Error("Supabase URL or Anon Key is not defined");
 	}
 
-	return createBrowserClient(supabaseURL, supabaseAnonKey, {
-		realtime: {
-			params: {
-				eventsPerSecond: 10, // Limit the number of events per second
-			},
-		},
-	});
+	// return createBrowserClient(supabaseURL, supabaseAnonKey, {
+	// 	realtime: {
+	// 		params: {
+	// 			eventsPerSecond: 10, // Limit the number of events per second
+	// 		},
+	// 	},
+	// });
+	return createBrowserClient(supabaseURL, supabaseAnonKey);
 }

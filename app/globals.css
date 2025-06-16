@@ -24,6 +24,20 @@ inside the block comment */
 	--color-pictonblue-800: oklch(0.4524 0.109 242.82) /* #005B8D */;
 	--color-pictonblue-900: oklch(0.3991 0.0915 241.97) /* #064C74 */;
 	--color-pictonblue-950: oklch(0.2977 0.0692 243.86) /* #04304D */;
+
+	--animate-rotate-border: border-rotate 3s linear infinite;
+
+	@keyframes border-rotate {
+		to {
+			--border-angle: 360deg;
+		}
+	}
+}
+
+@property --border-angle {
+	syntax: "<angle>";
+	initial-value: 0deg;
+	inherits: false;
 }
 
 /*
