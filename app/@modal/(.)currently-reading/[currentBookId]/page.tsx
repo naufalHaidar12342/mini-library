@@ -3,7 +3,7 @@ import { validate as uuidValidate, version as uuidVersion } from "uuid";
 import fetchSelectedBook from "@/app/helpers/supabase/fetch-selected-book";
 import { Books } from "@/app/types/books";
 import timestampToHumanDate from "@/app/utilities/timestamp-to-human-date";
-import BookDialog from "@/app/components/BookDialog";
+import BookModal from "@/app/components/BookModal";
 
 export default async function ModalSelectedCurrentlyReading({
 	params,
@@ -31,7 +31,7 @@ export default async function ModalSelectedCurrentlyReading({
 	);
 	// console.log("Requested Book Content:", requestedBookContent);
 	return (
-		<BookDialog>
+		<BookModal>
 			<div className="w-full flex flex-col">
 				<h1 className="font-(family-name:--font-bespoke-serif-extrabold) text-5xl">
 					{requestedBookContent.map((book: Books) => book.book_title)}
@@ -72,6 +72,6 @@ export default async function ModalSelectedCurrentlyReading({
 					</div>
 				</div>
 			</div>
-		</BookDialog>
+		</BookModal>
 	);
 }
