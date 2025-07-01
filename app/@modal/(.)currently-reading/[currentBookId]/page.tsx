@@ -4,6 +4,7 @@ import fetchSelectedBook from "@/app/helpers/supabase/fetch-selected-book";
 import { Books } from "@/app/types/books";
 import timestampToHumanDate from "@/app/utilities/timestamp-to-human-date";
 import BookModal from "@/app/components/BookModal";
+import { CalendarDays, LibraryBig, Users } from "lucide-react";
 
 export default async function ModalSelectedCurrentlyReading({
 	params,
@@ -32,37 +33,40 @@ export default async function ModalSelectedCurrentlyReading({
 	// console.log("Requested Book Content:", requestedBookContent);
 	return (
 		<BookModal>
-			<div className="w-full flex flex-col">
+			<div className="w-full h-full flex flex-col">
 				<h1 className="font-(family-name:--font-bespoke-serif-extrabold) text-5xl">
 					{requestedBookContent.map((book: Books) => book.book_title)}
 				</h1>
 				<div
-					className="mt-4 flex flex-col gap-2 font-(family-name:--font-bespoke-serif-regular) text-xl"
+					className="mt-6 flex flex-col gap-2 font-(family-name:--font-bespoke-serif-regular) text-xl"
 					aria-label="About the book"
 				>
-					<div className="flex gap-x-10">
-						<div
-							className="flex flex-col font-(family-name:--font-bespoke-serif-medium)"
-							aria-label="Book properties"
-						>
-							<span>Author</span>
-							<span>Release Year</span>
-							<span>Added to library</span>
-						</div>
-						<div
-							className="flex flex-col"
-							aria-label="Value of the book properties"
-						>
+					<div className="flex flex-col gap-6">
+						<div className="flex flex-col" aria-label="Author part">
+							<span className="flex items-center gap-x-1 font-(family-name:--font-bespoke-serif-medium)">
+								<Users />
+								Author/Authors {":"}
+							</span>
 							<span>
-								{":"}{" "}
 								{requestedBookContent.map((book: Books) => book.book_author)}
 							</span>
-							<span>
-								{":"}{" "}
-								{requestedBookContent.map((book: Books) => book.book_year)}
+						</div>
+						<div className="flex flex-col " aria-label="Release year part">
+							<span className="flex items-center gap-x-1 font-(family-name:--font-bespoke-serif-medium)">
+								<CalendarDays />
+								Release Year {":"}
 							</span>
 							<span>
-								{":"}
+								{" "}
+								{requestedBookContent.map((book: Books) => book.book_year)}
+							</span>
+						</div>
+						<div className="flex flex-col " aria-label="Added to library part">
+							<span className="flex items-center gap-x-1 font-(family-name:--font-bespoke-serif-medium)">
+								<LibraryBig />
+								Added to library {":"}
+							</span>
+							<span>
 								{""}
 								{requestedBookContent.map((book: Books) =>
 									timestampToHumanDate(book.created_at)

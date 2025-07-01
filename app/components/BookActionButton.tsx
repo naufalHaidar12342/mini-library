@@ -16,13 +16,13 @@ export default function BookActionButton({
 	return (
 		<Popover className={"relative"}>
 			<PopoverButton className={"flex items-center"}>
-				<Icon icon={"tabler:dots"} />
+				<Icon icon={"tabler:dots"} className="text-2xl" />
 			</PopoverButton>
 			<PopoverPanel
 				anchor={"top end"}
 				transition
 				className={
-					"flex origin-top flex-col transition duration-300 ease-out data-closed:scale-95 data-closed:opacity-0 bg-pictonblue-950 text-lightmode dark:bg-lightmode dark:text-pictonblue-950 rounded-md p-2"
+					"flex origin-top flex-col transition duration-300 ease-out data-closed:scale-95 data-closed:opacity-0 bg-pictonblue-950 text-lightmode dark:bg-lightmode dark:text-pictonblue-950 font-(family-name:--font-bespoke-serif-regular) rounded-md p-2"
 				}
 			>
 				{/* conditional rendering for view book link

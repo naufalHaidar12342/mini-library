@@ -4,6 +4,14 @@ import { Metadata } from "next";
 import fetchSelectedBook from "@/app/helpers/supabase/fetch-selected-book";
 import { Books } from "@/app/types/books";
 import timestampToHumanDate from "@/app/utilities/timestamp-to-human-date";
+import {
+	BookOpenCheck,
+	BookOpenText,
+	CalendarDays,
+	LibraryBig,
+	Users,
+} from "lucide-react";
+import Link from "next/link";
 
 export async function generateMetadata({
 	params,
@@ -39,6 +47,12 @@ export default async function FinishedBookDetailsPage({
 }) {
 	// Extracting the book ID from the params
 	const { finishedBookId: bookIdRequested } = await params;
+	console.log("book id passed:", bookIdRequested);
+	console.log("book id type:", typeof bookIdRequested);
+
+	console.log("validate book id:", uuidValidate(bookIdRequested));
+	console.log("version book id:", uuidVersion(bookIdRequested));
+
 	/* validate book ID if its a valid UUID v4
 		- !bookIdRequested is used to check if the bookIdRequested is undefined or null
 		- uuidValidate checks if the bookIdRequested is a valid UUID
@@ -62,37 +76,67 @@ export default async function FinishedBookDetailsPage({
 				{requestedBookContent.map((book: Books) => book.book_title)}
 			</h1>
 			<div
-				className="mt-4 flex flex-col gap-2 font-(family-name:--font-bespoke-serif-regular) text-xl"
+				className="mt-4 flex flex-col gap-2 md:flex-row md:gap-x-20 font-(family-name:--font-bespoke-serif-regular) text-xl"
 				aria-label="About the book"
 			>
-				<div className="flex gap-x-10">
-					<div
-						className="flex flex-col font-(family-name:--font-bespoke-serif-medium)"
-						aria-label="Book properties"
-					>
-						<span>Author</span>
-						<span>Release Year</span>
-						<span>Added to library</span>
-					</div>
-					<div
-						className="flex flex-col"
-						aria-label="Value of the book properties"
-					>
+				<div className="flex flex-col gap-6">
+					<div className="flex flex-col" aria-label="Author part">
+						<span className="flex items-center gap-x-1 font-(family-name:--font-bespoke-serif-medium)">
+							<Users />
+							Author/Authors {":"}
+						</span>
 						<span>
-							{":"}{" "}
 							{requestedBookContent.map((book: Books) => book.book_author)}
 						</span>
-						<span>
-							{":"} {requestedBookContent.map((book: Books) => book.book_year)}
+					</div>
+					<div className="flex flex-col " aria-label="Release year part">
+						<span className="flex items-center gap-x-1 font-(family-name:--font-bespoke-serif-medium)">
+							<CalendarDays />
+							Release Year {":"}
 						</span>
 						<span>
-							{":"}
+							{" "}
+							{requestedBookContent.map((book: Books) => book.book_year)}
+						</span>
+					</div>
+					<div className="flex flex-col " aria-label="Added to library part">
+						<span className="flex items-center gap-x-1 font-(family-name:--font-bespoke-serif-medium)">
+							<LibraryBig />
+							Added to library {":"}
+						</span>
+						<span>
 							{""}
 							{requestedBookContent.map((book: Books) =>
 								timestampToHumanDate(book.created_at)
 							)}
 						</span>
 					</div>
+				</div>
+				<div className="flex flex-col p-2 gap-3 border-2 border-dashed border-darkmode dark:border-lightmode rounded-md">
+					<Link
+						href="#"
+						className="font-(family-name:--font-bespoke-serif-medium) flex items-center bg-pictonblue-400 text-darkmode  gap-x-2 text-lg p-2 rounded-lg scale-100 hover:scale-105 duration-300"
+						aria-label="Back to list of books finished reading"
+					>
+						<BookOpenText />
+						Mark as Currently Reading
+					</Link>
+					<Link
+						href="/finished-reading"
+						className="flex items-center gap-x-1 text-lg p-2 border-2 border-pictonblue-400 rounded-lg scale-100 hover:scale-105 duration-300"
+						aria-label="Back to list of books currently reading"
+					>
+						<BookOpenCheck />
+						Finished Reading
+					</Link>
+					<Link
+						href="/"
+						className="flex items-center gap-x-1 text-lg p-2 border-2 border-pictonblue-400 rounded-lg scale-100 hover:scale-105 duration-300"
+						aria-label="Back to list of books currently reading"
+					>
+						<LibraryBig />
+						Home
+					</Link>
 				</div>
 			</div>
 		</div>

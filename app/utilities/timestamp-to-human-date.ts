@@ -5,11 +5,17 @@ export default function timestampToHumanDate(timestampFromServer: string) {
 	}
 	// convert the timestamp to asia/jakarta timezone
 	const date = new Date(timestampFromServer);
-	const options: Intl.DateTimeFormatOptions = {
-		year: "numeric",
+	const day = date.getUTCDate().toString().padStart(2, "0");
+	const month = date.toLocaleString("en-US", {
 		month: "long",
-		day: "numeric",
 		timeZone: "Asia/Jakarta",
-	};
-	return date.toLocaleString("en-US", options);
+	});
+	const year = date.getUTCFullYear();
+	const jakartaDate = new Date(
+		date.toLocaleString("en-US", { timeZone: "Asia/Jakarta" })
+	);
+	const hours = jakartaDate.getHours().toString().padStart(2, "0");
+	const minutes = jakartaDate.getMinutes().toString().padStart(2, "0");
+	const customizedFormat = `${day} ${month} ${year} ${hours}.${minutes} (UTC+7)`;
+	return customizedFormat;
 }

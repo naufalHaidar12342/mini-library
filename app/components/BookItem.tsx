@@ -1,6 +1,4 @@
-import { Icon } from "@iconify-icon/react";
 import { Books } from "../types/books";
-import Link from "next/link";
 import BookActionButton from "./BookActionButton";
 
 export default function BookItem({ booksPassed }: { booksPassed: Books }) {

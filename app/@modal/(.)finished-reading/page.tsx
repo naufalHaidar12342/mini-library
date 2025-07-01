@@ -1,13 +1,13 @@
 import { Suspense } from "react";
-import Logo from "../components/Logo";
-import ThemeSwitch from "../components/ThemeSwitch";
+import Logo from "@/app/components/Logo";
+import ThemeSwitch from "@/app/components/ThemeSwitch";
 import Link from "next/link";
 import { Icon } from "@iconify-icon/react";
-import { BOOKS_IN_EACH_PAGE } from "../constants/pagination-constants";
-import fetchBooksFinishedRead from "../helpers/supabase/fetch-books-finished-read";
-import { Books } from "../types/books";
-import BookItem from "../components/BookItem";
-import PaginationComponent from "../components/PaginationComponent";
+import { BOOKS_IN_EACH_PAGE } from "@/app/constants/pagination-constants";
+import fetchBooksFinishedRead from "@/app/helpers/supabase/fetch-books-finished-read";
+import { Books } from "@/app/types/books";
+import BookItem from "@/app/components/BookItem";
+import PaginationComponent from "@/app/components/PaginationComponent";
 import { Metadata } from "next";
 
 export async function generateMetadata(): Promise<Metadata> {

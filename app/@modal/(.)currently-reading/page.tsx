@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
-import fetchBooksCurrentlyRead from "../helpers/supabase/fetch-books-currently-read";
-import { Books } from "../types/books";
+import fetchBooksCurrentlyRead from "@/app/helpers/supabase/fetch-books-currently-read";
+import { Books } from "@/app/types/books";
 import Link from "next/link";
-import { BOOKS_IN_EACH_PAGE } from "../constants/pagination-constants";
-import BookItem from "../components/BookItem";
-import PaginationComponent from "../components/PaginationComponent";
+import { BOOKS_IN_EACH_PAGE } from "@/app/constants/pagination-constants";
+import BookItem from "@/app/components/BookItem";
+import PaginationComponent from "@/app/components/PaginationComponent";
 import { Icon } from "@iconify-icon/react";
 import { Suspense } from "react";
-import Logo from "../components/Logo";
-import ThemeSwitch from "../components/ThemeSwitch";
+import Logo from "@/app/components/Logo";
+import ThemeSwitch from "@/app/components/ThemeSwitch";
 
 export async function generateMetadata(): Promise<Metadata> {
 	const { data: recentlyReadBook } = await fetchBooksCurrentlyRead({
@@ -57,7 +57,7 @@ export default async function CurrentlyReadingPage({
 			<h1 className="mt-16 text-[29.6px] font-(family-name:--font-bespoke-serif-bold)">
 				Currently Reading
 			</h1>
-			<Link href={"/"} className="mt-2 w-fit flex items-center text-lg gap-x-2">
+			<Link href={"/"} className="mt-2 flex items-center text-lg gap-x-2">
 				<Icon icon={"tabler:sign-left-filled"} />
 				Go back to homepage
 			</Link>
