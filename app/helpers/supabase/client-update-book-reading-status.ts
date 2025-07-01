@@ -1,5 +1,5 @@
 import { validate as uuidValidate, version as uuidVersion } from "uuid";
-import supabaseServerSide from "./supabase-server-side";
+// import supabaseServerSide from "./supabase-server-side";
 import supabaseClientSide from "./supabase-client-side";
 
 export default async function clientUpdateBookReadingStatus(
