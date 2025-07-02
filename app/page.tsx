@@ -4,7 +4,7 @@ import fetchAllBooks from "./helpers/supabase/fetch-all-books";
 import { Suspense } from "react";
 import { BOOKS_IN_EACH_PAGE } from "./constants/pagination-constants";
 import AllBooksSection from "./components/home/AllBooksSection";
-import { Books } from "./types/books";
+//import { Books } from "./types/books";
 import fetchBooksCurrentlyRead from "./helpers/supabase/fetch-books-currently-read";
 import fetchBooksFinishedRead from "./helpers/supabase/fetch-books-finished-read";
 import CurrentlyReadingSection from "./components/home/CurrentlyReadingSection";
@@ -68,17 +68,15 @@ export default async function Home({
 			</section>
 			<div className="mt-6 flex flex-col gap-y-6 lg:flex-row lg:gap-x-6 lg:gap-y-0">
 				<CurrentlyReadingSection
-					booksFromServer={currentlyReadingBooks as Books[]}
+					booksFromServer={currentlyReadingBooks || []}
 				/>
 				<div className="hidden lg:flex lg:w-2 lg:bg-darkmode lg:dark:bg-lightmode"></div>
-				<FinishedReadingSection
-					booksFromServer={finishedReadingBooks as Books[]}
-				/>
+				<FinishedReadingSection booksFromServer={finishedReadingBooks || []} />
 			</div>
 			<AllBooksSection
 				booksFromServer={
 					fetchedAllBooks !== null || undefined
-						? (fetchedAllBooks as Books[])
+						? fetchedAllBooks || []
 						: booksButStatic
 				}
 				totalPages={allBooksPages}
