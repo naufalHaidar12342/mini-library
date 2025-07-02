@@ -42,6 +42,13 @@ export default async function Home({
 	const booksButStatic = getFallbackBooks();
 	// console.log("Fallback Books:", booksButStatic);
 
+	const fallbackCurrentlyReadingBooks = getFallbackBooks().filter(
+		(book) => book.book_finished_reading === false
+	);
+	const fallbackFinishedReadingBooks = getFallbackBooks().filter(
+		(book) => book.book_finished_reading === true
+	);
+
 	return (
 		<div className="flex flex-col w-full min-h-screen font-(family-name:--bespoke-serif-regular)">
 			<Suspense
@@ -68,17 +75,17 @@ export default async function Home({
 			</section>
 			<div className="mt-6 flex flex-col gap-y-6 lg:flex-row lg:gap-x-6 lg:gap-y-0">
 				<CurrentlyReadingSection
-					booksFromServer={currentlyReadingBooks || []}
+					booksFromServer={
+						currentlyReadingBooks ?? fallbackCurrentlyReadingBooks
+					}
 				/>
 				<div className="hidden lg:flex lg:w-2 lg:bg-darkmode lg:dark:bg-lightmode"></div>
-				<FinishedReadingSection booksFromServer={finishedReadingBooks || []} />
+				<FinishedReadingSection
+					booksFromServer={finishedReadingBooks ?? fallbackFinishedReadingBooks}
+				/>
 			</div>
 			<AllBooksSection
-				booksFromServer={
-					fetchedAllBooks !== null || undefined
-						? fetchedAllBooks || []
-						: booksButStatic
-				}
+				booksFromServer={fetchedAllBooks ?? booksButStatic}
 				totalPages={allBooksPages}
 			/>
 		</div>
